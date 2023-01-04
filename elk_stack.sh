@@ -45,7 +45,7 @@ then
         read -r -p "Especifique el nuevo directorio con el path completo. ie. /mnt/elk/log" path
         sudo mkdir -p $path
         sudo sed -i "33 s+var/lib/elasticsearch+$path+" /etc/elasticsearch/elasticsearch.yml
-
+	sudo chown -R elasticsearch:elasticsearch $path
         read -r -p "Desea mover el contenido de /var/lib/elasticsearch al nuevo directorio? [y/N]" answer
         if [[ "$answer" =~ ^([yY][eE][sS]|[yY])$ ]]
                 sudo mv -vf /var/lib/elasticsearch $path
