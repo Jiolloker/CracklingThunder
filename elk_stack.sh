@@ -36,6 +36,32 @@ sudo sed -i "/network.host/s/^#//g" /etc/elasticsearch/elasticsearch.yml
 sudo sed -i "/http.port/s/^#//g" /etc/elasticsearch/elasticsearch.yml
 sudo sed -i "s/192.168.0.1/localhost/g" /etc/elasticsearch/elasticsearch.yml
 sudo sed -i "71 i discovery.type: single-node" /etc/elasticsearch/elasticsearch.yml
+
+echo "Puede cambiar el directorio donde se guardara la base de datos de ElasticSearch"
+sleep 2
+read -r -p "Desea hacerlo? [y/N] " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
+then
+        read -r -p "Especifique el nuevo directorio con el path completo. ie. /mnt/elk/log" path
+        sudo mkdir -p $path
+        sudo sed -i "33 s+var/lib/elasticsearch+$path+" /etc/elasticsearch/elasticsearch.yml
+
+        read -r -p "Desea mover el contenido de /var/lib/elasticsearch al nuevo directorio? [y/N]" answer
+        if [[ "$answer" =~ ^([yY][eE][sS]|[yY])$ ]]
+                sudo mv -vf /var/lib/elasticsearch $path
+                echo "Se movio el contenido de /var/lib/elasticsearch a $path"
+        else
+                echo "No se realizaran cambios" 
+        fi
+        echo "Continua la instalación de ElasticSearch"
+        sleep 3
+else
+        echo "En el archivo de configuración de ElasticSearch puede modificar esto cuando deseé"
+        echo "Se encuentra en /etc/elasticsearch/elasticsearch.yml, lo puede encontrar ne la linea 33"
+        echo "Continua la instalación de ElasticSearch"
+        sleep 7
+fi
+
 #Recargar el daemon
 sudo systemctl daemon-reload
 #Iniciar el servicio de ElasticSearch
