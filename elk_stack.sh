@@ -1,4 +1,8 @@
 #! /bin/bash
+# Get a carriage return into `cr`
+cr=`echo $'\n.'`
+cr=${cr%.}
+
 
 #Instalador de ELK-stack
 #Actualizar sistema
@@ -39,16 +43,17 @@ sudo sed -i "71 i discovery.type: single-node" /etc/elasticsearch/elasticsearch.
 
 echo "Puede cambiar el directorio donde se guardara la base de datos de ElasticSearch"
 sleep 2
-read -r -p "Desea hacerlo? [y/N] " response
+read -r -p "Desea hacerlo? [y/N] $cr" response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
-        read -r -p "Especifique el nuevo directorio con el path completo. ie. /mnt/elk/log" path
+        read -r -p "Especifique el nuevo directorio con el path completo. ie. /mnt/elk/log$cr" path
         sudo mkdir -p $path
         sudo sed -i "33 s+var/lib/elasticsearch+$path+" /etc/elasticsearch/elasticsearch.yml
 	sudo chown -R elasticsearch:elasticsearch $path
-        read -r -p "Desea mover el contenido de /var/lib/elasticsearch al nuevo directorio? [y/N]" answer
+        read -r -p "Desea mover el contenido de /var/lib/elasticsearch al nuevo directorio? [y/N]$cr" answer
         if [[ "$answer" =~ ^([yY][eE][sS]|[yY])$ ]]
-                sudo mv -vf /var/lib/elasticsearch $path
+	then
+                sudo mv -vf /var/lib/elasticsearch/* $path
                 echo "Se movio el contenido de /var/lib/elasticsearch a $path"
         else
                 echo "No se realizaran cambios" 
