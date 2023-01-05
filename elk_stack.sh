@@ -1,5 +1,5 @@
 #! /bin/bash
-# Get a carriage return into `cr`
+# Get a carriage return into `cr`, se usa en condicional if else, para que carge un newline 
 cr=`echo $'\n.'`
 cr=${cr%.}
 
