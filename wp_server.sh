@@ -1,4 +1,8 @@
 #! /bin/bash
+
+#Actualizar sistema
+sudo apt update -y
+
 #Instalar dependencias
 echo "Instalando dependencias"
 sleep 2
