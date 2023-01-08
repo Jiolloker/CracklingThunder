@@ -18,8 +18,6 @@ echo "Añadir repositorio de docker"
 sleep 2
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
-echo "\n\r"
-
 #Docker
 echo "Instalar docker"
 sleep 2
@@ -46,7 +44,7 @@ read -r -p "Escribir Mysql/wordpress nombre de usuario: " MYSQL_WP_USER
 read -r -p "Escribir contraseña para mysql/wordpress: " MYSQL_WP_PASS
 echo "Se guardaran credenciales de mysql en mysqlcred.txt"
 sleep 3
-echo $MYSQL_ROOT_pass $MYSQL_user $MYSQL_PASS mysqlcred.txt
+echo $MYSQL_ROOT_PASS $MYSQL_WP_USER $MYSQL_WP_PASS mysqlcred.txt
 
 sudo docker run -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASS -e MYSQL_USER=$MYSQL_WP_USER -e MYSQL_PASSWORD=$MYSQL_WP_PASS -e MYSQL_DATABASE=wpdb -v /root/wordpress/database:/var/lib/mysql --name wordpressdb -d mariadb
 
@@ -122,3 +120,4 @@ sleep 2
 sudo systemctl restart nginx
 
 echo "Instalacion de Wordpress terminada, puede probar entrar a la web con Su.ip.de.trabajo:8081"
+echo "ejemplo 192.168.1.41:8081"
