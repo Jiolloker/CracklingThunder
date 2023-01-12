@@ -1,7 +1,7 @@
 #! /bin/bash
 
 sudo apt update
-sudo apt install apache2
+sudo apt install apache2 curl
 sudo ufw allow in "Apache"
 sudo apt install mysql-server
 echo "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password by '21zKxUk9t*G';" > altmysql.txt
@@ -35,7 +35,7 @@ echo "<VirtualHost *:80>
     </Directory>
 
 </VirtualHost>" > wpsample.conf
-sudo mv wpsample.conf /etc/apache2/sites-available/
+sudo mv wpsample.conf /etc/apache2/sites-available/.
 sudo a2ensite wpsample
 sudo a2dissite 000-default
 sudo apache2ctl configtest
@@ -54,28 +54,27 @@ sudo apt update
 sudo apt install php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip
 sleep 3
 sudo systemctl restart apache2
-cd /tmp
 curl -O https://wordpress.org/latest.tar.gz
 tar xzvf latest.tar.gz
-touch /tmp/wordpress/.htaccess
-cp /tmp/wordpress/wp-config-sample.php /tmp/wordpress/wp-config.php
-mkdir /tmp/wordpress/wp-content/upgrade
+touch /home/ubuntu/CracklingThunder/wordpress/.htaccess
+cp /home/ubuntu/CracklingThunder/wordpress/wp-config-sample.php /home/ubuntu/CracklingThunder/wordpress/wp-config.php
+mkdir /home/ubuntu/CracklingThunder/wordpress/wp-content/upgrade
 #salt
-cd /tmp/wordpress/
-SALT=/$HOME/CracklingThunder/salt.txt
-sudo bash $SALT
+cd /home/ubuntu/CracklingThunder/wordpress/
+SALT=/home/ubuntu/CracklingThunder/salt.txt
+bash $SALT
 #config wp-config
-sudo sed -i "82 s/false/true/" wp-config.php
-sudo sed -i "23 s/'database_name_here/wpsample/" wp-config
-sudo sed -i "26 s/username_here/wordpressuser/" wp-config
-sudo sed -i "29 s/password_here/21zKxUk9t*G/" wp-config
-sudo sed -i "82 s/false/true/" wp-config
-sudo sed -i "85 i define( 'WP_DEBUG_LOG', true );" wp-config
+sudo sed -i "82 s/false/true/" /home/ubuntu/CracklingThunder/wordpress/wp-config.php
+sudo sed -i "23 s/'database_name_here/wpsample/" /home/ubuntu/CracklingThunder/wordpress/wp-config.php
+sudo sed -i "26 s/username_here/wordpressuser/" /home/ubuntu/CracklingThunder/wordpress/wp-config.php
+sudo sed -i "29 s/password_here/21zKxUk9t*G/" /home/ubuntu/CracklingThunder/wordpress/wp-config.php
+sudo sed -i "82 s/false/true/" /home/ubuntu/CracklingThunder/wordpress/wp-config.php
+sudo sed -i "85 i define( 'WP_DEBUG_LOG', true );" /home/ubuntu/CracklingThunder/wordpress/wp-config.php
 
 
-sudo cp -a /tmp/wordpress/. /var/www/wpsample
+sudo cp -a /home/ubuntu/CracklingThunder/wordpress/. /var/www/wpsample
 sudo chown -R www-data:www-data /var/www/wpsample
 sudo find /var/www/wpsample/ -type d -exec chmod 750 {} \;
 sudo find /var/www/wpsample/ -type f -exec chmod 640 {} \;
-cd /$HOME
 echo "finish"
+
