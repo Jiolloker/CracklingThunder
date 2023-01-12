@@ -10,6 +10,7 @@ echo "21zKxUk9t*G  mysql root pwd"
 sleep 4
 echo "21zKxUk9t*G n n y y y y"
 sleep 4
+sudo mysql_secure_installation
 sudo apt install php libapache2-mod-php php-mysql
 sudo mkdir /var/www/wpsample
 sudo chown -R $USER:$USER /var/www/wpsample
@@ -33,11 +34,48 @@ echo "<VirtualHost *:80>
 
     </Directory>
 
-</VirtualHost>" /$HOME/CracklingThunder/wpsample.conf
+</VirtualHost>" > wpsample.conf
 sudo mv wpsample.conf /etc/apache2/sites-available/
 sudo a2ensite wpsample
 sudo a2dissite 000-default
 sudo apache2ctl configtest
 sleep 4
 sudo systemctl reload apache2
+echo "21zKxUk9t*G for mysql"
+sleep 4
+echo "CREATE DATABASE wpsample DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
+echo "CREATE USER 'wordpressuser'@'%' IDENTIFIED WITH mysql_native_password BY '21zKxUk9t*G';"
+echo "GRANT ALL ON wpsample.* TO 'wordpressuser'@'%';"
+echo "FLUSH PRIVILEGES;"
+echo "EXIT;"
+sleep 10
+sudo mysql -u root -p
+sudo apt update
+sudo apt install php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip
+sleep 3
+sudo systemctl restart apache2
+cd /tmp
+curl -O https://wordpress.org/latest.tar.gz
+tar xzvf latest.tar.gz
+touch /tmp/wordpress/.htaccess
+cp /tmp/wordpress/wp-config-sample.php /tmp/wordpress/wp-config.php
+mkdir /tmp/wordpress/wp-content/upgrade
+#salt
+cd /tmp/wordpress/
+SALT=/$HOME/CracklingThunder/salt.txt
+sudo bash $SALT
+#config wp-config
+sudo sed -i "82 s/false/true/" wp-config.php
+sudo sed -i "23 s/'database_name_here/wpsample/" wp-config
+sudo sed -i "26 s/username_here/wordpressuser/" wp-config
+sudo sed -i "29 s/password_here/21zKxUk9t*G/" wp-config
+sudo sed -i "82 s/false/true/" wp-config
+sudo sed -i "85 i define( 'WP_DEBUG_LOG', true );" wp-config
 
+
+sudo cp -a /tmp/wordpress/. /var/www/wpsample
+sudo chown -R www-data:www-data /var/www/wpsample
+sudo find /var/www/wpsample/ -type d -exec chmod 750 {} \;
+sudo find /var/www/wpsample/ -type f -exec chmod 640 {} \;
+cd /$HOME
+echo "finish"
