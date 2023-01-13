@@ -28,12 +28,6 @@ echo "<VirtualHost *:80>
 
     CustomLog \${APACHE_LOG_DIR}/access.log combined
 
-    <Directory /var/www/wpsample/>
-
-        AllowOverride All
-
-    </Directory>
-
 </VirtualHost>" > wpsample.conf
 sudo mv wpsample.conf /etc/apache2/sites-available/.
 sudo a2ensite wpsample
