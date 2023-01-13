@@ -2,7 +2,8 @@
 # Get a carriage return into `cr`, se usa en condicional if else, para que carge un newline 
 cr=`echo $'\n.'`
 cr=${cr%.}
-
+#Path del wp_config.d para logstash
+PATH=/home/ubuntu/CracklingThunder/wp_conf.d
 
 #Instalador de ELK-stack
 #Actualizar sistema
@@ -80,6 +81,7 @@ sleep 1
 echo "Iniciando instalación de Logstash"
 sleep 2
 sudo apt install logstash -y
+sudo mv $PATH /etc/logstash/conf.d
 #Iniciar el servicio Logstash
 sudo systemctl start logstash
 #Habilitar el servicio de Logstash al inicio del sistema.
