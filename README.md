@@ -1,4 +1,4 @@
-Instalación
+Instalación, Desplegar ambos instaladores en la misma maquina.
 bash elk_stack.sh
 Instalara progresivamente hasta elasticsearch, luego pregunta si quiere cambiar el path en donde se guardara la base de datos
 Puede contestar yes, luego preguntara por el path completo en donde meter la base de datos. Sea /mnt/elk_db, luego pregunta si quiere mover todo el contenido de la carpeta estandar de elasticsearch a el nuevo directorio, puede dejarlo asi si quiere.
